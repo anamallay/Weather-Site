@@ -1,0 +1,16 @@
+{
+  "Weather Today": "حالة الطقس اليوم",
+  "Temperature": "درجة الحرارة",
+  "High Temperature": "الحرارة الكبرى",
+  "Low Temperature": "الحرارة الصغرى",
+  "Jizan": "جازان",
+  "clear sky": "سماء صافية",
+  "few clouds": "قليل من السحب",
+  "scattered clouds": "سحب منتشرة",
+  "broken clouds": "سحب متفاوتة",
+  "shower rain": "زخات مطر",
+  "rain": "مطر",
+  "thunderstorm": "عاصفة رعدية",
+  "snow": "ثلوج",
+  "mist": "ضباب"
+}
