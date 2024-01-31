@@ -43,9 +43,7 @@ function App() {
     }
     setDataAndTime(moment().format("MMMM Do YYYY"));
   }
-  // useEffect(() => {
-  //   i18n.changeLanguage("ar");
-  // }, []);
+
   useEffect(() => {
     const callingApiWeather = async () => {
       try {
@@ -90,10 +88,10 @@ function App() {
 
   return (
     <div
-      className="App"
+      className="app"
       style={{ direction: locales === "ar" ? "ltr" : "rtl" }}>
       <Container maxWidth="sm">
-        <Card sx={{ minWidth: 275}} className="Cardg">
+        <Card sx={{ minWidth: 275 }} className="card">
           <CardContent>
             <Typography
               sx={{ fontSize: 14 }}
@@ -139,7 +137,11 @@ function App() {
                 </div>
               </div>
               <div style={{ flex: 1 }}>
-                <img style={{ width: "200px" }} src={weatherData.icon} />
+                <img
+                  style={{ width: "200px" }}
+                  src={weatherData.icon}
+                  alt="Weather Icon"
+                />
               </div>
             </div>
             <div style={{ display: "flex" }}>
@@ -160,7 +162,10 @@ function App() {
             display: "flex",
             justifyContent: "flex-end",
           }}>
-          <Button style={{backgroundColor: "#66bb6a"}} variant="contained" onClick={handleChangeLanguage}>
+          <Button
+            style={{ backgroundColor: "#66bb6a" }}
+            variant="contained"
+            onClick={handleChangeLanguage}>
             {locales === "en" ? "انجليزي" : "Arabic"}
           </Button>
         </div>
