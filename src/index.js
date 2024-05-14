@@ -6,6 +6,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import './css/index.css';
 // import i18n (needs to be bundled ;)) 
 import './i18n';
+// Redux Provider
+import store from "./app/store";
+import { Provider } from "react-redux";
 const theme = createTheme({
   typography: {
     fontFamily: ["Exo", "Rubik"],
@@ -16,7 +19,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ThemeProvider theme={theme}>
     <React.StrictMode>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </React.StrictMode>
   </ThemeProvider>
 );

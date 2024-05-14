@@ -5,31 +5,36 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
-import axios from "axios";
 import moment from "moment";
 import "moment/locale/ar";
 import { useTranslation } from "react-i18next";
+import CircularProgress from "@mui/material/CircularProgress";
+// Redux imports
+import { useSelector, useDispatch } from "react-redux";
+import { fetchWeatherData } from "./features/weather/weatherApiSlice";
+
 
 moment.locale("ar");
-const APIkey = "201525c388e4bdad7a15e5349236fefe";
-const lat = "16.909683";
-const lon = "42.567902";
 
-let cancelAxios = null;
 function App() {
   const { t, i18n } = useTranslation();
+  // Redux code
+  const weatherData = useSelector((state) => state.weather.weather);
+  console.log("weather:: ", weatherData);
+  const isLoading = useSelector((state) => state.weather.isLoading);
+  const dispatch = useDispatch();
   // State
-  const [weatherData, setWeatherData] = useState({
-    name: "",
-    temp: "",
-    temp_max: "",
-    temp_min: "",
-    description: "",
-    icon: "",
-  });
+  // const [weatherData, setWeatherData] = useState({
+  //   name: "",
+  //   temp: "",
+  //   temp_max: "",
+  //   temp_min: "",
+  //   description: "",
+  //   icon: "",
+  // });
   const [locales, setLocales] = useState("ar");
   const [dataAndTime, setDataAndTime] = useState(null);
-  console.log(dataAndTime);
+
   // event handlers
   function handleChangeLanguage() {
     if (locales === "ar") {
@@ -45,46 +50,8 @@ function App() {
   }
 
   useEffect(() => {
-    const callingApiWeather = async () => {
-      try {
-        const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIkey}`,
-          {
-            cancelToken: new axios.CancelToken((c) => {
-              cancelAxios = c;
-            }),
-          }
-        );
-        let name = response.data.name;
-        let temp = response.data.main.temp - 272.15;
-        let temp_max = response.data.main.temp_max - 272.15;
-        let temp_min = response.data.main.temp_min - 272.15;
-        let description = response.data.weather[0].description;
-        let icon = response.data.weather[0].icon;
-
-        setWeatherData({
-          name: name,
-          temp: Math.round(temp),
-          temp_max: Math.round(temp_max),
-          temp_min: Math.round(temp_min),
-          description: description,
-          icon: `https://openweathermap.org/img/wn/${icon}@2x.png`,
-        });
-      } catch (error) {
-        console.error("Error fetching weather data:", error);
-      }
-    };
-    callingApiWeather();
-
-    // Cleanup function
-    return () => {
-      if (cancelAxios) {
-        cancelAxios("Component unmounted or cleanup");
-      }
-    };
+    dispatch(fetchWeatherData());
   }, []);
-
-  console.log("weatherData", weatherData);
 
   return (
     <div
@@ -128,7 +95,10 @@ function App() {
               }}>
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                  <Typography variant="h2"> {weatherData.temp}</Typography>
+                  <Typography variant="h2">
+                    {" "}
+                    {isLoading ? <CircularProgress /> : ""} {weatherData.temp}
+                  </Typography>
                 </div>
                 <div>
                   <Typography variant="h4">
@@ -139,7 +109,7 @@ function App() {
               <div style={{ flex: 1 }}>
                 <img
                   style={{ width: "200px" }}
-                  src={weatherData.icon}
+                  src={`https://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
                   alt="Weather Icon"
                 />
               </div>
