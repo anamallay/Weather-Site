@@ -51,7 +51,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchWeatherData());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div
